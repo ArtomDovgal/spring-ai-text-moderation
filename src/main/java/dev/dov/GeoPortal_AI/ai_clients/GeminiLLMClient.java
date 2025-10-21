@@ -44,7 +44,7 @@ public class GeminiLLMClient implements LLMClient {
                     .user("""
                         Analyze text:
                         "%s"
-                    """.formatted(text))
+                    """.formatted(sanitizePrompt(text)))
                     .options(ChatOptions.builder()
                             .temperature(0.2)
                             .build())
@@ -54,5 +54,27 @@ public class GeminiLLMClient implements LLMClient {
             log.error("Gemini moderation failed: {}", e.getMessage());
             return new ModerationResult(0.5, 0.0, 0.0, ModerationCategory.SAFE, "Fallback response");
         }
+    }
+
+    public String sanitizePrompt(String userInput) {
+
+        return userInput
+                .replaceAll("(?i)ignore previous instructions", "")
+                .replaceAll("(?i)system prompt", "")
+                .replaceAll("(?i)you are now", "")
+
+                .replaceAll("(?i)ігноруй попередні інструкції", "")
+                .replaceAll("(?i)ігнорувати попередні інструкції", "")
+                .replaceAll("(?i)системний промпт", "")
+                .replaceAll("(?i)тепер ти", "")
+                .replaceAll("(?i)відтепер ти", "")
+
+                .replaceAll("(?i)игнорируй предыдущие инструкции", "")
+                .replaceAll("(?i)игнорировать предыдущие инструкции", "")
+                .replaceAll("(?i)системный промпт", "")
+                .replaceAll("(?i)теперь ты", "")
+                .replaceAll("(?i)с этого момента ты", "")
+
+                .trim();
     }
 }
