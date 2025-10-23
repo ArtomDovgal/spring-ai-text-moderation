@@ -2,7 +2,6 @@ package dev.dov.GeoPortal_AI.services;
 
 import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.springframework.stereotype.Service;
-
 import java.util.Set;
 
 @Service
