@@ -1,0 +1,22 @@
+services:
+  geoportal-ai:
+    build: .
+    container_name: geoportal-ai
+    ports:
+      - "8082:8070"
+    env_file:
+      - .env
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_USERNAME: ${RABBITMQ_USER}
+      SPRING_RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+      GOOGLE_AI_API_KEY: ${GOOGLE_AI_API_KEY}
+      MODERATION_TOPIC: ${MODERATION_TOPIC}
+      MODERATION_QUEUE_REQUEST: ${MODERATION_QUEUE_REQUEST}
+      MODERATION_QUEUE_RESPONSE: ${MODERATION_QUEUE_RESPONSE}
+    networks:
+      - rabbitmq_network_geo
+
+networks:
+  rabbitmq_network_geo:
+    external: true

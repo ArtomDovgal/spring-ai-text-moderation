@@ -53,7 +53,7 @@ public class EventTextListener {
                 log.info("Text [{}] flagged by SimilarityFilter", request.getRequestId());
 
                 sendResponse(request, new ModerationResult(
-                        0.8, 0.0, 0.0,
+                        0.7, 0.0, 0.0,
                         ModerationCategory.TOXIC,
                         "Текст містить слова схожі на нецензурщину"
                 ));

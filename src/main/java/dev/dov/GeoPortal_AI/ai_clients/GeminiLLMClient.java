@@ -23,6 +23,9 @@ public class GeminiLLMClient implements LLMClient {
         Analyze the user's text for the following aspects:
         1. Toxicity — detect insults, hate speech, harassment (0..1)
         2. Off-topic — unrelated or irrelevant content (0..1)
+            Off-topic includes commercial ads (e.g., "Продам авто", "Здам квартиру"),
+            job offers, buying/selling, personal announcements, and anything not
+            related to reporting city infrastructure problems.
         3. PII leak — personal data exposure (phone, address, email, ID, card) (0..1)
 
         Return your analysis strictly as JSON that maps to this Java class:
@@ -52,7 +55,7 @@ public class GeminiLLMClient implements LLMClient {
                     .entity(ModerationResult.class);
         } catch (Exception e) {
             log.error("Gemini moderation failed: {}", e.getMessage());
-            return new ModerationResult(0.5, 0.0, 0.0, ModerationCategory.SAFE, "Fallback response");
+            return new ModerationResult(0.5, 0.0, 0.0, ModerationCategory.UNKNOWN, "Fallback response");
         }
     }
 
